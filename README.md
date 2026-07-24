@@ -49,16 +49,34 @@ pair of leading/trailing quotes automatically if present.
 Example:
 
 ```
-Enter SOURCE directory (folder to search): /source/folder/location
-Enter DESTINATION directory (cold storage root): /destination/folder/location
+Enter SOURCE directory (folder to search): /my/source/folder
+Enter DESTINATION directory (cold storage root): /my/destination/folder
+```
+
+If the destination folder doesn't exist yet, you'll be asked to confirm
+before it's created:
+
+```
+Destination folder does not exist: /my/destination/folder
+Would you like to create it? [y/n]:
+```
+
+Either way, you'll then get a final confirmation before anything is
+copied — a last chance to catch a typo in either path:
+
+```
+Please confirm before proceeding:
+  Source:      /my/source/folder
+  Destination: /my/destination/folder
+Proceed? [y/n]:
 ```
 
 ## Sample output
 
 ```
 CR2 backup run started: Fri 24 Jul 2026 09:12:03 BST
-Source:      /source/folder/location
-Destination: /destination/folder/location
+Source:      /my/source/folder
+Destination: /my/destination/folder
 ----------------------------------------
 COPIED: 2026-07-20-canal-walk/IMG_5669.CR2 (25184304 bytes)
 COPIED: 2026-07-20-canal-walk/IMG_5669.CR2.xmp (1602 bytes)
@@ -68,7 +86,7 @@ Run finished: Fri 24 Jul 2026 09:14:51 BST
 Files copied:  842
 Files skipped (already existed): 1204
 Total size copied: 21384.60 MB
-Log saved to: /destination/folder/location/.../cr2_copy_log_20260724-091203.txt
+Log saved to: /my-destination/folder/cr2_copy_log_20260724-091203.txt
 ```
 
 ## Important notes

@@ -35,8 +35,32 @@ if [ ! -d "$SRC_DIR" ]; then
     exit 1
 fi
 
-mkdir -p "$DEST_DIR"
+# If the destination doesn't exist yet, confirm before creating it —
+# catches typos in the destination path before they silently create
+# a new (wrong) folder.
+if [ ! -d "$DEST_DIR" ]; then
+    read -rp "Destination folder does not exist: $DEST_DIR
+Would you like to create it? [y/n]: " CREATE_CONFIRM
+    case "$CREATE_CONFIRM" in
+        [Yy]*) mkdir -p "$DEST_DIR" ;;
+        *) echo "Aborted — destination not created. No files copied."; exit 1 ;;
+    esac
+fi
+
 DEST_DIR=$(cd "$DEST_DIR" && pwd)
+
+# Final confirmation before doing anything — last chance to catch a typo
+# in either path.
+echo ""
+echo "Please confirm before proceeding:"
+echo "  Source:      $SRC_DIR"
+echo "  Destination: $DEST_DIR"
+read -rp "Proceed? [y/n]: " RUN_CONFIRM
+case "$RUN_CONFIRM" in
+    [Yy]*) ;;
+    *) echo "Aborted by user. No files copied."; exit 1 ;;
+esac
+echo ""
 
 TIMESTAMP=$(date +"%Y%m%d-%H%M%S")
 LOG_FILE="$DEST_DIR/cr2_copy_log_${TIMESTAMP}.txt"
