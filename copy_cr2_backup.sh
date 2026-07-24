@@ -25,9 +25,11 @@ read -rp "Enter DESTINATION directory (cold storage root): " DEST_DIR
 SRC_DIR=$(strip_quotes "$SRC_DIR")
 DEST_DIR=$(strip_quotes "$DEST_DIR")
 
-# Expand ~ and resolve to absolute paths
-SRC_DIR=$(eval echo "$SRC_DIR")
-DEST_DIR=$(eval echo "$DEST_DIR")
+# Expand a leading ~ to your home folder (safe — no eval involved, so
+# apostrophes and other special characters in the rest of the path are
+# left completely untouched)
+SRC_DIR="${SRC_DIR/#\~/$HOME}"
+DEST_DIR="${DEST_DIR/#\~/$HOME}"
 SRC_DIR=$(cd "$SRC_DIR" 2>/dev/null && pwd || echo "$SRC_DIR")
 
 if [ ! -d "$SRC_DIR" ]; then
